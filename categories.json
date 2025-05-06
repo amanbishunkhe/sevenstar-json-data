@@ -1,0 +1,37 @@
+[
+{"type":"header","version":"5.2.2","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"sevenstarkhabar_laravel_website_latana"},
+{"type":"table","name":"categories","database":"sevenstarkhabar_laravel_website_latana","data":
+[
+{"id":"1","category_title":"राजनीति","key":"politics","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:39:08","updated_at":"2024-07-30 09:39:08"},
+{"id":"2","category_title":"समाज","key":"society","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:39:21","updated_at":"2024-07-30 09:39:21"},
+{"id":"3","category_title":"धर्म संस्कृति","key":"religion","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:40:15","updated_at":"2024-07-30 09:40:15"},
+{"id":"4","category_title":"अपराध","key":"crime","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:40:30","updated_at":"2024-07-30 09:40:30"},
+{"id":"5","category_title":"दुर्घटना","key":"accident","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:40:44","updated_at":"2024-07-30 09:40:44"},
+{"id":"6","category_title":"कोशी प्रदेश","key":"koshi-province","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:40:59","updated_at":"2024-07-30 09:40:59"},
+{"id":"7","category_title":"मधेश प्रदेश","key":"madhesh-province","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:41:19","updated_at":"2024-07-30 09:41:19"},
+{"id":"8","category_title":"बागमति प्रदेश","key":"bagamati-province","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:41:36","updated_at":"2024-07-30 09:41:36"},
+{"id":"9","category_title":"गण्डकी प्रदेश","key":"gandaki-province","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:41:56","updated_at":"2024-07-30 09:41:56"},
+{"id":"10","category_title":"लुम्बिनी प्रदेश","key":"lumbini-province","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:42:20","updated_at":"2024-07-30 09:42:20"},
+{"id":"11","category_title":"कर्णाली प्रदेश","key":"karnali-province","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:42:44","updated_at":"2024-07-30 09:42:44"},
+{"id":"12","category_title":"सुदूरपश्चिम प्रदेश","key":"sudurpaschim-province","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:43:15","updated_at":"2024-07-30 09:43:15"},
+{"id":"13","category_title":"अर्थ","key":"business","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:43:37","updated_at":"2024-07-30 09:43:37"},
+{"id":"14","category_title":"खेलकुद","key":"sports","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:43:44","updated_at":"2024-07-30 09:43:44"},
+{"id":"15","category_title":"अन्तरवार्ता","key":"interview","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:43:53","updated_at":"2024-07-30 09:43:53"},
+{"id":"16","category_title":"विचार","key":"opinion","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:44:07","updated_at":"2024-07-30 09:44:07"},
+{"id":"17","category_title":"स्वास्थ्य\/जीवनशैली","key":"health-lifestyle","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:44:24","updated_at":"2024-07-30 09:44:24"},
+{"id":"18","category_title":"विश्व","key":"international","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:44:33","updated_at":"2024-07-30 09:44:33"},
+{"id":"19","category_title":"मनोरञ्जन","key":"entertainment","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:44:54","updated_at":"2024-07-30 09:44:54"},
+{"id":"20","category_title":"शिक्षा","key":"education","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:45:10","updated_at":"2024-07-30 09:45:10"},
+{"id":"21","category_title":"विज्ञान\/प्रविधि","key":"science-and-technology","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:45:27","updated_at":"2024-07-30 09:45:27"},
+{"id":"22","category_title":"कृषि","key":"agriculture","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:46:23","updated_at":"2024-07-30 09:46:23"},
+{"id":"23","category_title":"सुरक्षा","key":"safety","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:46:36","updated_at":"2024-07-30 09:46:36"},
+{"id":"24","category_title":"मौसम","key":"weather","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:46:48","updated_at":"2024-07-30 09:46:48"},
+{"id":"25","category_title":"फोटो फिचर","key":"photo-feature","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:47:00","updated_at":"2024-07-30 09:47:00"},
+{"id":"26","category_title":"पत्रिका","key":"newspaper","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-07-30 09:47:11","updated_at":"2024-07-30 09:47:11"},
+{"id":"28","category_title":"पर्यटन","key":"Tourism","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-08-01 11:23:38","updated_at":"2024-08-01 11:23:38"},
+{"id":"29","category_title":"STAR NEWS","key":"star_newws","created_by":"1","order":"0","description":null,"deleted_at":null,"created_at":"2024-08-02 08:14:14","updated_at":"2024-08-02 08:14:14"},
+{"id":"30","category_title":"समाचार","key":"Samachar","created_by":"4","order":"0","description":null,"deleted_at":null,"created_at":"2024-08-16 15:58:11","updated_at":"2024-08-16 15:58:11"}
+]
+}
+]
