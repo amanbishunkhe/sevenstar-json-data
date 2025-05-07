@@ -56,11 +56,14 @@ $categories_json_data = file_get_contents($categoriesJsonFile);
 $categories_data = json_decode($categories_json_data, true);
 
 $category_slug_lookup = [];
+$category_title_lookup = [];
 foreach ($categories_data[2]['data'] as $category) {
     $id = (string)$category['id'];
     $slug = $category['key']; // Assuming 'key' is slug
+    $category_title_lookup[$id] = $category['category_title']; 
     $category_slug_lookup[$id] = $slug;
 }
+
 
 //load tag_post.json
 $tagPostJsonFile = get_template_directory_uri() . '/post_tag.json';
@@ -93,11 +96,6 @@ foreach ($tags_data[2]['data'] as $key => $tag) {
     $tag_title_lookup[$id] = $tag_title;
 }
 
-// echo '<pre>';
-// print_r( $tag_title_lookup );
-// echo '</pre>';
-
-// die;
 // Merge everything into posts
 $match_count = 0;
 foreach ($posts as &$post) {
@@ -114,14 +112,17 @@ foreach ($posts as &$post) {
     // Add categories and slugs
     if (isset($post_to_category[$post_id])) {
         $cat_ids = $post_to_category[$post_id];
-        $post['category_id'] = implode(',', $cat_ids);
+        //$post['category_id'] = implode(',', $cat_ids);
 
+        $cat_title = [];
         $slugs = [];
         foreach ($cat_ids as $cat_id) {
             if (isset($category_slug_lookup[$cat_id])) {
+                $cat_title[] = $category_title_lookup[$cat_id];
                 $slugs[] = $category_slug_lookup[$cat_id];
             }
         }
+        $post['category_title'] = implode(',', $cat_title);
         $post['category_slug'] = implode(',', $slugs);
     }
 
@@ -129,7 +130,7 @@ foreach ($posts as &$post) {
 
     if( isset( $post_to_tag[$post_id] ) ){
         $tag_ids = $post_to_tag[$post_id];
-        $post['tag_id'] = implode(',', $tag_ids);
+       // $post['tag_id'] = implode(',', $tag_ids);
 
         $tag_slugs = [];   
         $tag_title = [];    
