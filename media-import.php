@@ -58,10 +58,46 @@ $categories_data = json_decode($categories_json_data, true);
 $category_slug_lookup = [];
 foreach ($categories_data[2]['data'] as $category) {
     $id = (string)$category['id'];
-    $slug = $category['key']; // Assuming 'key' is your slug
+    $slug = $category['key']; // Assuming 'key' is slug
     $category_slug_lookup[$id] = $slug;
 }
 
+//load tag_post.json
+$tagPostJsonFile = get_template_directory_uri() . '/post_tag.json';
+$tag_post_json_data = file_get_contents($tagPostJsonFile);
+$tag_post_data = json_decode($tag_post_json_data, true);
+
+$post_to_tag = [];
+foreach ($tag_post_data[2]['data'] as $key => $tag_entry) {
+    $post_id = (string)$tag_entry['post_id'];
+    $tag_id = (string)$tag_entry['tag_id'];
+
+    if( !isset( $post_to_tag[$post_id] ) ){
+        $post_to_tag[$post_id ] = [];
+    }
+    $post_to_tag[$post_id][] = $tag_id;
+}
+
+//load tags.json
+$tagJsonFIle = get_template_directory_uri().'/tags.json';
+$tag_json_data = file_get_contents( $tagJsonFIle );
+$tags_data = json_decode( $tag_json_data,true );
+
+$tag_slug_lookup = [];
+$tag_title_lookup = [];
+foreach ($tags_data[2]['data'] as $key => $tag) {
+    $id = ( string )$tag['id'];
+    $slug = $tag['key'];
+    $tag_title = $tag['tag_title'];
+    $tag_slug_lookup[$id] = $slug;
+    $tag_title_lookup[$id] = $tag_title;
+}
+
+// echo '<pre>';
+// print_r( $tag_title_lookup );
+// echo '</pre>';
+
+// die;
 // Merge everything into posts
 $match_count = 0;
 foreach ($posts as &$post) {
@@ -87,6 +123,25 @@ foreach ($posts as &$post) {
             }
         }
         $post['category_slug'] = implode(',', $slugs);
+    }
+
+    // Add slug and title
+
+    if( isset( $post_to_tag[$post_id] ) ){
+        $tag_ids = $post_to_tag[$post_id];
+        $post['tag_id'] = implode(',', $tag_ids);
+
+        $tag_slugs = [];   
+        $tag_title = [];    
+        foreach ($tag_ids as $key => $tag_id) {
+            if( isset( $tag_slug_lookup[ $tag_id ]  ) ){
+                $tag_slugs[] = $tag_slug_lookup[$tag_id];   
+                $tag_title[] = $tag_title_lookup[$tag_id];          
+            }
+        }
+        $post['tag_slug'] = implode(',', $tag_slugs);   
+        $post['tag_title'] = implode(',', $tag_title);      
+
     }
 
     $match_count++;
