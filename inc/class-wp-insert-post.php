@@ -37,7 +37,7 @@ class Wp_Insert_Post
      *
      * @var int
      */
-    private $batch_size = 5;
+    private $batch_size = 10;
 
     /**
      * The final data.
@@ -73,8 +73,8 @@ class Wp_Insert_Post
     public function add_custom_cron_schedule($schedules)
     {
         $schedules['five_minutes'] = array(
-            'interval' => 5 * 60, // 5 minutes in seconds
-            'display'  => __('Every 5 Minutes'),
+            'interval' => 2 * 60, // 2 minutes in seconds
+            'display'  => __('Every 2 Minutes'),
         );
         return $schedules;
     }
@@ -278,7 +278,7 @@ class Wp_Insert_Post
             $this->set_featured_image($post_id, $data['image_source']);
         }
 
-        //$this->handle_terms($post_id, $data);
+        $this->handle_terms($post_id, $data);
     }
 
     /**
@@ -446,32 +446,41 @@ class Wp_Insert_Post
      */
     private function handle_terms($post_id, $data)
     {
-        if (! empty($data['journalTitle'])) {
-            $this->assign_category_terms($post_id, $data['journalTitle'], 'journal');
+        // Assign categories
+        if (! empty($data['category_title'])) {
+            $term_title = sanitize_text_field($data['category_title']);
+            $term_slug  = $data['category_slug'] ? sanitize_text_field($data['category_slug']) : '';
+            $this->assign_terms($post_id, $term_title, 'category', $term_slug);
+        }
+        // Assign Tags
+        if (! empty($data['tag_title'])) {
+            $term_title = sanitize_text_field($data['tag_title']);
+            $term_slug  = $data['tag_slug'] ? sanitize_text_field($data['tag_slug']) : '';
+            $this->assign_terms($post_id, $term_title, 'post_tag', $term_slug);
         }
 
-        if (! empty($data['KeywordList'])) {
-            wp_set_post_terms($post_id, $data['KeywordList'], 'keyword');
-            // Keywords for the Rankmath
-            //update_post_meta($post_id, 'rank_math_focus_keyword', implode(", ", array_unique($data['KeywordList'])));
-        }
+        // if (! empty($data['KeywordList'])) {
+        //     wp_set_post_terms($post_id, $data['KeywordList'], 'keyword');
+        //     // Keywords for the Rankmath
+        //     //update_post_meta($post_id, 'rank_math_focus_keyword', implode(", ", array_unique($data['KeywordList'])));
+        // }
 
-        if (! empty($data['authors'])) {
-            $authors      = wp_list_pluck($data['authors'], 'name');
-            $affiliations = array_merge(...wp_list_pluck($data['authors'], 'affiliation'));
-            $unique_affiliations = array_unique($affiliations);
+        // if (! empty($data['authors'])) {
+        //     $authors      = wp_list_pluck($data['authors'], 'name');
+        //     $affiliations = array_merge(...wp_list_pluck($data['authors'], 'affiliation'));
+        //     $unique_affiliations = array_unique($affiliations);
 
-            foreach ($unique_affiliations as $affiliation) {
-                // Trim the term name to avoid exceeding database limits (200 characters for the name).
-                if (strlen($affiliation) > 200) {
-                    $affiliation = substr($affiliation, 0, 200);
-                }
-                $this->assign_category_terms($post_id, $affiliation, 'institution');
-            }
-            wp_set_post_terms($post_id, $authors, 'author');
+        //     foreach ($unique_affiliations as $affiliation) {
+        //         // Trim the term name to avoid exceeding database limits (200 characters for the name).
+        //         if (strlen($affiliation) > 200) {
+        //             $affiliation = substr($affiliation, 0, 200);
+        //         }
+        //         $this->assign_terms($post_id, $affiliation, 'institution');
+        //     }
+        //     wp_set_post_terms($post_id, $authors, 'author');
 
-            $this->insert_meta_fields($post_id, $data['authors']);
-        }
+        //     $this->insert_meta_fields($post_id, $data['authors']);
+        // }
     }
 
     /**
@@ -482,17 +491,23 @@ class Wp_Insert_Post
      * @param string $key      Data key for terms.
      * @param string $taxonomy Taxonomy name.
      */
-    private function assign_category_terms($post_id, $term_name, $taxonomy)
+    private function assign_terms($post_id, $term_name, $taxonomy, $term_slug = '')
     {
         // Check if the term exists
         $term = get_term_by('name', $term_name, $taxonomy);
 
         if (!$term) {
+            // Prepare term arguments
+            $term_args = [
+                'description' => '',
+                'slug' => $term_slug ?: sanitize_title($term_name) // Use custom slug if provided, otherwise generate from name
+            ];
+
             // Create the term if it doesn't exist
             $result = wp_insert_term(
                 $term_name,
                 $taxonomy,
-                ['description' => '']
+                $term_args
             );
 
             if (is_wp_error($result)) {
@@ -506,7 +521,7 @@ class Wp_Insert_Post
         }
 
         // Assign the term to the post
-        wp_set_post_terms($post_id, [$term_id], $taxonomy);
+        wp_set_post_terms($post_id, [$term_id], $taxonomy, true); // The 'true' parameter appends the term
         error_log('Term assigned to post ID ' . $post_id . ': ' . $term_name);
     }
 
