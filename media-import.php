@@ -185,4 +185,3 @@ fclose($csvFile);
 
 echo "JSON and CSV files generated successfully.\n";
 echo $match_count;
-?>
