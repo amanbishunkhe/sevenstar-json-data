@@ -4,14 +4,14 @@
 $mediajsonFile = get_template_directory_uri() . '/media.json';
 $media_json_data = file_get_contents($mediajsonFile);
 $media_data = json_decode($media_json_data, true);
-
+$site_url = 'https://sevenstarkhabar.com';
 $post_image_data = [];
 foreach ($media_data[2]['data'] as $value) {
     if (isset($value['model_type']) && $value['model_type'] === 'App\\Models\\BackendModels\\Post') {
         $media_id = $value['id'];
         $post_id = $value['model_id'];
         $post_ref_name = $value['name'];
-        $image_source = "https://sevenstarkhabar.com/storage/{$media_id}/conversions/{$post_ref_name}-thumb_1200_600.jpg";
+        $image_source = "{$site_url}/storage/{$media_id}/conversions/{$post_ref_name}-thumb_1200_600.jpg";
         $post_image_data[] = [
             "post_id" => (string)$post_id,
             "image_source" => $image_source
@@ -38,6 +38,8 @@ if (empty($posts)) {
 $categoryPostJsonFile = get_template_directory_uri() . '/category_post.json';
 $category_post_json_data = file_get_contents($categoryPostJsonFile);
 $category_post_data = json_decode($category_post_json_data, true);
+
+
 
 $post_to_category = [];
 foreach ($category_post_data[2]['data'] as $entry) {
@@ -100,6 +102,19 @@ foreach ($tags_data[2]['data'] as $key => $tag) {
 $match_count = 0;
 foreach ($posts as &$post) {
     $post_id = (string)$post['id'];
+
+    if(!empty( $post['details'] )){      
+        $details = stripslashes($post['details']);
+        $details = preg_replace_callback(
+            '#<img\s+[^>]*src=[\'"](?:\.\.\/){3}([^\'"]+)[\'"]#',
+            function ($matches) use ($site_url) {
+                return str_replace('../../../', $site_url . '/', $matches[0]);
+            },
+            $details
+        );
+
+        $post['details'] = $details;
+    }
 
     // Add image if available
     foreach ($post_image_data as $image) {
